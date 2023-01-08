@@ -104,13 +104,17 @@ require("packer").startup(function()
 		require("toggleterm").setup()
 	end }
 
+	use { "glepnir/dashboard-nvim" }
+
 	git = {
 		-- default_url_format = 'https://gitclone.com/github.com/%s'
 		-- default_url_format = 'https://hub.fastgit.xyz/%s'
 	}
 end)
 
-vim.cmd [[colorscheme catppuccin]]
+vim.cmd [[
+colorscheme catppuccin
+]]
 
 require("nvim-treesitter.configs").setup {
 	-- 安装 language parser
@@ -180,3 +184,68 @@ vim.cmd [[autocmd Filetype c,cpp packadd termdebug]]
 vim.g.termdebug_wide = 1
 
 vim.keymap.set("n", "<leader>git", "<cmd>lua require('terminal').git_client_toggle()<CR>", { noremap = true })
+
+local db = require('dashboard')
+-- https://lachlanarthur.github.io/Braille-ASCII-Art/
+db.custom_header = {
+	--	'⠉⠈⠁⠉⠈⠁⠉⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠁⠉⠈⠉⠈⠁⠉⠈⠁⠉⠁⠉⠈⠁⠉⠁⠉⠈⠁⠉⠈⠁⠉⠈⣥⣭⣥⣭⣬',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢣⢿⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣸⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⢰⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⠡⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⠅⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡌⠀⠀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⢹⠂⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⠀⡗⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⠀⠀⠀⠀⠀⡘⠀⠀⣰⡇⠀⠀⠀⣰⠁⢀⠄⠀⠀⠀⠀⠼⠀⠀⠀⠀⠀⠀⠀⠸⠁⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⣰⠃⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⣀⣀⡁⠀⠀⡴⠃⢀⡈⠀⢀⠀⠀⣤⣤⠀⠀⠀⠀⠀⠀⠀⡆⢱⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⡌⣸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⠀⣀⡴⠂⠜⢀⡠⠾⢿⣿⠁⠀⣊⠅⢠⠞⠀⡴⠁⣀⣾⡿⡟⠀⠀⠀⠀⠀⠀⠀⡗⢸⣿⣿⣿',
+	'⠀⠀⠀⠀⡄⠠⢁⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣯⡴⡤⠶⢭⠿⡽⣯⣖⣶⣿⣯⢐⣋⣴⡿⣱⠾⠷⠒⠚⠁⠀⠀⠀⠀⠀⠀⠀⠃⢺⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⠀⣼⠆⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⣯⣤⣴⡄⠀⠀⠀⠀⣤⣨⣽⣿⣿⣿⣿⣿⣓⣯⡄⠀⠀⣠⠿⠀⠀⠀⠀⠀⠀⠀⢠⢻⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⢸⢿⠃⠀⠀⠀⠀⠀⠀⠀⢰⡇⠀⠀⠀⠀⠀⠀⠀⠰⢹⣿⣙⡧⢤⡤⣤⢦⢟⣻⣿⣿⣿⣿⣿⣿⡬⣿⣖⣰⣤⢭⡔⠀⠀⠀⠀⠀⠀⠀⢸⢺⣿⣿⣿',
+	'⠀⠀⠀⠀⠀⣻⡇⠀⠀⠀⠀⠀⡌⠀⠀⣾⡇⠀⠀⠀⠀⠀⠀⠀⠘⡼⣿⣿⣿⣾⣷⣾⣷⣿⣿⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⢠⢸⣸⣿⣿⣿',
+	'⠀⠀⠀⠀⢰⡿⠀⠀⠀⠀⠀⡄⠀⠀⣰⣿⡇⠀⠀⠀⠀⠀⠀⠀⠄⣛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⢸⡂⢼⣿⣿⣿',
+	'⠀⠀⠀⢀⣾⠁⠂⠀⠀⠠⠌⠀⠀⢠⣿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠀⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡜⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⢸⡅⢸⣿⣿⣿',
+	'⠀⠀⢀⡾⠃⠀⠀⠀⠔⠁⠀⠀⢠⡜⣿⣿⣯⢡⠀⠀⠀⠀⠀⠀⠀⡅⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢻⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡃⢼⣿⣿⣿',
+	'⢀⣴⣿⠁⠀⠀⠀⠀⢀⠄⢀⢎⣾⣿⣌⢿⣿⠰⠀⠀⠀⠀⠀⠀⠀⠔⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠿⣿⠿⠈⠀⠀⡌⠀⠀⡀⠀⠀⠀⠀⢸⠁⣿⣿⣿⣿',
+	'⠈⠯⠀⠀⠀⢀⣠⠆⠁⡸⢃⣾⣿⣿⣿⣦⠻⡇⡃⠀⠀⠀⠀⠀⠀⢊⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣷⠗⠀⠀⢀⡴⠀⠀⡐⠄⠀⠀⠀⠀⣸⠠⣿⣿⣿⣿',
+	'⠈⣁⣠⣤⠶⠋⠁⣠⠘⣵⣿⣿⣿⣿⣿⣿⣷⣄⠡⠀⠀⠀⠀⠀⠀⢹⢸⣿⣿⣿⣿⣿⣿⠿⠿⠿⢻⣛⣻⡿⠉⠀⠀⠠⠞⠀⢀⠆⣜⠆⠀⠀⠀⠀⡞⢸⣿⣿⣿⣿',
+	'⠈⠉⠁⠀⢀⣀⣮⣴⡎⣿⣿⣿⣿⣿⣿⣿⣿⣿⠰⠀⠀⠀⠀⠀⠀⡸⢸⣿⣿⣿⣿⣯⣤⣄⣤⣠⣴⣿⠋⠀⠀⠀⡠⠀⠀⠴⠃⡸⢪⠄⠀⠀⠀⠠⠇⣿⣿⣿⣿⣿',
+	'⢈⣿⣿⣿⣿⣿⣷⣽⣳⣍⠿⣿⣿⣿⣿⣿⣿⣿⡇⠆⠀⠀⠀⠀⠀⢱⢸⣿⣿⣿⣿⣟⣹⣛⣋⣿⠍⣄⠀⣀⣀⣤⠰⠞⠉⣠⠚⣵⣿⠀⠀⠀⠀⠘⢠⣿⣿⣿⣿⣿',
+	'⢈⣿⣿⣿⣿⣿⣿⣿⣧⡛⢷⣌⠿⣿⣿⣿⣿⣿⣇⢨⠀⠀⠀⠀⠀⡄⣙⠿⢿⣿⣿⣿⣿⣿⡿⢋⣾⣷⣀⣉⣉⡀⢠⣒⣡⢶⣿⣌⠗⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿',
+	'⢈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⡻⣷⣬⠻⣿⣿⣿⣿⢀⠀⠀⠀⠀⠀⡆⢟⣣⣦⣭⣙⣛⣛⡯⣵⣿⢻⣿⢧⣿⣿⣏⡧⣿⣿⡸⣿⣿⠃⠀⠀⠀⢀⢆⣿⣿⣿⣿⣿⣿',
+	'⢈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣛⢿⣬⡛⣿⣿⡆⠆⠀⠀⠀⠀⡄⢺⣟⣻⣿⣿⣿⣿⡇⢻⣿⡇⣿⢭⣿⣿⢸⣷⢹⣿⣧⢻⡇⠀⠀⠀⠀⠌⣼⣿⣿⣿⣿⣿⣿',
+	'⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡙⠇⢣⠀⠀⠀⢰⠃⣼⡿⣾⣿⣿⣿⣿⡇⣚⢿⣿⣸⢽⣿⡇⢻⣿⣜⣿⣿⡘⠀⠀⠀⠀⢀⡸⢿⣿⣿⣿⣿⣿⣿',
+	'⠈⣧⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⡀⠀⠀⠸⢀⣟⣿⣿⣿⣿⣿⣿⡷⢸⡞⣿⡞⣼⣿⣸⣏⣿⣿⣿⣿⠁⠀⠀⠀⢀⢿⣿⣎⢻⣿⣿⣿⣿⣿',
+	'⠰⡸⣧⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡁⠀⠀⠒⣸⣿⣿⣿⣿⣿⣿⣿⡷⢸⣹⡼⣷⢸⡇⣿⡎⣿⣿⣿⠃⠀⠀⠀⣠⢿⣧⡻⣿⣷⡙⢿⣿⣿⣿',
+	'⠀⣷⢻⣧⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⡄⢃⠀⠀⡇⣬⡛⢿⣿⣿⣿⣿⣿⣟⢸⣧⢷⡹⡿⣼⣾⣭⣿⣿⠃⠀⠀⣠⡘⣿⣟⣿⣷⡞⢿⣿⣮⠻⣿⢙',
+	'⠰⡜⣏⢿⣷⡹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢃⣾⣷⠈⡄⢰⢡⢿⣿⢢⡹⣿⣿⣿⣿⣟⢸⣿⡜⣷⡽⣿⣿⣿⡽⢁⠂⡬⣶⣿⣷⢻⣿⣼⣿⣿⡜⣷⠝⣣⣶⣿',
+}
+db.custom_center = {
+	{ icon = '  ',
+		desc = 'Recently opened files',
+		action = 'Telescope oldfiles',
+	},
+	{ icon = '  ',
+		desc = 'Find File            ',
+		action = 'Telescope find_files find_command=rg,--hidden,--files',
+	},
+}
+db.custom_footer = {}
+vim.cmd [[
+" Commenting blocks of code.
+augroup commenting_blocks_of_code
+  autocmd!
+  autocmd FileType c,cpp,java,scala                      let b:comment_leader = '// '
+  autocmd FileType sh,ruby,python,conf,fstab,gitconfig   let b:comment_leader = '# '
+  autocmd FileType tex                                   let b:comment_leader = '% '
+  autocmd FileType mail                                  let b:comment_leader = '> '
+  autocmd FileType vim                                   let b:comment_leader = '" '
+  autocmd FileType lua                                   let b:comment_leader = '-- '
+augroup END
+
+" a sed (s/what/towhat/where) command changing ^ (start of line) to the correctly set comment character based on the type of file you have opened
+" as for the silent thingies they just suppress output from commands.
+" :nohlsearch stops it from highlighting the sed search
+noremap <silent> <space>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> <space>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+]]
