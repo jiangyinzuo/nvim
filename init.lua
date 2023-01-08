@@ -136,6 +136,11 @@ vim.opt.termguicolors = true
 
 -- empty setup using defaults
 require("nvim-tree").setup()
+-- auto close
+vim.cmd([[
+  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+]])
+vim.keymap.set("n", "<leader>tree", ":NvimTreeToggle<CR>", { noremap = true })
 
 require("bufferline").setup {
 	-- 侧边栏配置
@@ -160,6 +165,7 @@ telescope.setup {}
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>", { noremap = true })
 -- 全局搜索
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<CR>", { noremap = true })
+vim.keymap.set("n", "<C-h>", ":Telescope oldfiles<CR>", { noremap = true })
 
 require("mason").setup {
 	ui = {
@@ -248,4 +254,10 @@ augroup END
 " :nohlsearch stops it from highlighting the sed search
 noremap <silent> <space>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> <space>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+]]
+
+vim.cmd [[
+	set foldmethod=expr
+	set foldexpr=nvim_treesitter#foldexpr()
+	set nofoldenable
 ]]
