@@ -69,6 +69,7 @@ require("packer").startup(function()
 
 	use "folke/tokyonight.nvim"
 	use { "catppuccin/nvim", as = "catppuccin" }
+	use 'Mofiqul/vscode.nvim'
 
 	use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
 	use { "nvim-tree/nvim-tree.lua", requires = "nvim-tree/nvim-web-devicons" }
@@ -113,7 +114,7 @@ require("packer").startup(function()
 end)
 
 vim.cmd [[
-colorscheme catppuccin
+	colorscheme vscode
 ]]
 
 require("nvim-treesitter.configs").setup {

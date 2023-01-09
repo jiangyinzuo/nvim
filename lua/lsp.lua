@@ -126,9 +126,6 @@ require("clangd_extensions").setup {
 	},
 }
 
-require("lspconfig").pyright.setup {
-	on_attach = on_attach,
-}
 require("lspconfig").sumneko_lua.setup {
 	settings = {
 		Lua = {
@@ -155,7 +152,6 @@ require("lspconfig").sumneko_lua.setup {
 }
 
 local null_ls = require "null-ls"
-
 null_ls.setup {
 	sources = {
 		null_ls.builtins.formatting.stylua,
